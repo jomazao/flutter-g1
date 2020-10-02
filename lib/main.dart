@@ -1,7 +1,7 @@
 import 'package:example_app/screens/details_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'screens/store_main_screen.dart';
+import 'screens/pokemon_main_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: StoreMainScreen(),
+      home: PokemonMainScreen(),
     );
   }
 }
