@@ -6,9 +6,14 @@ import 'package:example_app/widgets/product_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PokemonMainScreen extends StatelessWidget {
-  final pokemonRepository = PokemonRepository();
+class PokemonMainScreen extends StatefulWidget {
+  @override
+  PokemonMainScreenState createState() => PokemonMainScreenState();
+}
 
+class PokemonMainScreenState extends State<PokemonMainScreen> {
+  final pokemonRepository = PokemonRepository();
+  var touches = 0;
   @override
   Widget build(BuildContext context) {
     //Variables pokemon
@@ -84,12 +89,21 @@ class PokemonMainScreen extends StatelessWidget {
           ]),
       body: SingleChildScrollView(
         child: Wrap(
-          children: pokemonRepository
-              .getAll()
-              .map((pokemon) => PokemonWidget(
-                    pokemon: pokemon,
-                  ))
-              .toList(),
+          children: [
+            Text('has toca $touches pokemon'),
+            ...pokemonRepository
+                .getAll()
+                .map((pokemon) => GestureDetector(
+                      onTap: () {
+                        touches++;
+                        setState(() {});
+                      },
+                      child: PokemonWidget(
+                        pokemon: pokemon,
+                      ),
+                    ))
+                .toList()
+          ],
         ),
       ),
     );

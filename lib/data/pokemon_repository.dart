@@ -46,7 +46,9 @@ class PokemonRepository {
     ),
   ];
 
-  List<Pokemon> getAll() => _POKEMON_LIST;
+  List<Pokemon> getAll() {
+    return _POKEMON_LIST;
+  }
   //TODO connect to online real database
 
   //Local temporal database
