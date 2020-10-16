@@ -23,7 +23,7 @@ class PokemonMainScreenState extends State<PokemonMainScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(8, 1, 35, 1),
-        title: Text('DEVSHOUSE'),
+        title: Text('DEVSHOUSE POKEMON'),
       ),
       drawer: Drawer(
         child: Column(
@@ -105,6 +105,98 @@ class PokemonMainScreenState extends State<PokemonMainScreen> {
                 .toList()
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.orange,
+        child: Icon(Icons.add),
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                final nameController = TextEditingController();
+                final numberController = TextEditingController();
+                final photoController = TextEditingController();
+                final typeController = TextEditingController();
+                final errorController = TextEditingController();
+
+                return AlertDialog(
+                  title: Text('Añadir Pokemon'),
+                  content: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      Image.network(
+                        'https://elvortex.com/wp-content/uploads/2018/03/HddtBOT-e1520478229723.png',
+                        height: 130,
+                      ),
+                      TextFormField(
+                        controller: nameController,
+                        decoration: InputDecoration(
+                            hintText: 'Ingresa el nombre',
+                            errorText: 'error error'),
+                        maxLength: 20,
+                      ),
+                      TextField(
+                        controller: numberController,
+                        decoration:
+                            InputDecoration(hintText: 'Ingresa el número'),
+                        maxLength: 4,
+                        maxLengthEnforced: true,
+                        keyboardType: TextInputType.number,
+                      ),
+                      TextField(
+                        controller: typeController,
+                        decoration:
+                            InputDecoration(hintText: 'Ingresa el tipo'),
+                        maxLength: 15,
+                      ),
+                      TextField(
+                        controller: photoController,
+                        decoration:
+                            InputDecoration(hintText: 'Ingresa la foto'),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    FlatButton(
+                      onPressed: () {
+                        final name = nameController.text;
+                        final number = numberController.text;
+                        final type = typeController.text;
+                        final photo = photoController.text;
+
+                        if (name.isEmpty ||
+                            number.isEmpty ||
+                            photo.isEmpty ||
+                            type.isEmpty) {
+                          errorController.text = 'No puede dejar campos vacíos';
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text('No puede dejar campos vacíos'),
+                                  ));
+                        } else if (pokemonRepository.nameExists(name)) {
+                          errorController.text = 'Ya existe este nombre';
+                        } else {
+                          var pokemon = Pokemon(
+                            name: name,
+                            number: int.parse(number),
+                            type: type,
+                            photoUrl: photo,
+                          );
+                          pokemonRepository.create(pokemon);
+                          Navigator.pop(context);
+                          setState(() {});
+                        }
+                      },
+                      child: Text('Guardar'),
+                    )
+                  ],
+                );
+              });
+        },
       ),
     );
   }

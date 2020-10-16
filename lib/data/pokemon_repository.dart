@@ -54,12 +54,16 @@ class PokemonRepository {
   //Local temporal database
 
   create(Pokemon pokemon) {
-    //TODO add code to create the pokemon on the db
+    _POKEMON_LIST.add(pokemon);
   }
 
   Pokemon get(String id) {
     //TODO add code to get the pokemon from the db
     return Pokemon();
+  }
+
+  nameExists(String name) {
+    return _POKEMON_LIST.any((pokemon) => pokemon.name == name);
   }
 
   update(Pokemon pokemon) {
